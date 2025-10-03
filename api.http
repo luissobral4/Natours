@@ -1,0 +1,32 @@
+@host = http://localhost:3000
+@uri_prefix = api/v1
+
+GET {{host}}/{{uri_prefix}}/tours
+
+GET {{host}}/{{uri_prefix}}/tours/123
+
+GET {{host}}/{{uri_prefix}}/users
+
+GET {{host}}/{{uri_prefix}}/users/12
+
+DELETE {{host}}/{{uri_prefix}}/tours/1
+
+POST {{host}}/{{uri_prefix}}/tours
+Content-Type: application/json
+{
+    "name": "Test2 tour",
+    "duration": 11,
+    "price": 40,
+    "difficulty": "easy"
+}
+
+PATCH {{host}}/{{uri_prefix}}/tours/2
+Content-Type: application/json
+{
+    "duration": 11,
+    "difficulty": "easy"
+}
+
+GET https://www.natours.dev/api/v1/tours
+
+GET https://dog.ceo/api/breeds/image/random
