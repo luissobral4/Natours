@@ -16,72 +16,74 @@ import prettierPlugin from 'eslint-plugin-prettier';
 const gitignorePath = path.resolve('.', '.gitignore');
 
 const jsConfig = [
-  // ESLint Recommended Rules
-  {
-    name: 'js/config',
-    ...js.configs.recommended,
-  },
-  // Stylistic Plugin
-  plugins.stylistic,
-  // Import X Plugin
-  plugins.importX,
-  // Airbnb Base Recommended Config
-  ...configs.base.recommended,
+    // ESLint Recommended Rules
+    {
+        name: 'js/config',
+        ...js.configs.recommended
+    },
+    // Stylistic Plugin
+    plugins.stylistic,
+    // Import X Plugin
+    plugins.importX,
+    // Airbnb Base Recommended Config
+    ...configs.base.recommended
 ];
 
 const nodeConfig = [
-  // Node Plugin
-  plugins.node,
-  // Airbnb Node Recommended Config
-  ...configs.node.recommended,
+    // Node Plugin
+    plugins.node,
+    // Airbnb Node Recommended Config
+    ...configs.node.recommended
 ];
 
 const prettierConfig = [
-  // Prettier Plugin
-  {
-    name: 'prettier/plugin/config',
-    plugins: {
-      prettier: prettierPlugin,
+    // Prettier Plugin
+    {
+        name: 'prettier/plugin/config',
+        plugins: {
+            prettier: prettierPlugin
+        }
     },
-  },
-  // Prettier Config
-  {
-    name: 'prettier/config',
-    rules: {
-      ...prettierConfigRules,
-      'prettier/prettier': 'error',
-      'prettier/prettier': ['error', { tabWidth: 4 }],
-    },
-  },
+    // Prettier Config
+    {
+        name: 'prettier/config',
+        rules: {
+            ...prettierConfigRules,
+            'prettier/prettier': ['error']
+        }
+    }
 ];
 
 const customRulesConfig = {
-  name: 'custom/rules',
-  rules: {
-    'spaced-comment': 'off',
-    'no-console': 'warn',
-    'consistent-return': 'off',
-    'func-names': 'off',
-    'object-shorthand': 'off',
-    'no-process-exit': 'off',
-    'no-param-reassign': 'off',
-    'no-return-await': 'off',
-    'no-underscore-dangle': 'off',
-    'class-methods-use-this': 'off',
-    'prefer-destructuring': ['error', { object: true, array: false }],
-    'no-unused-vars': ['error', { argsIgnorePattern: 'req|res|next|val' }],
-  },
+    name: 'custom/rules',
+    rules: {
+        'spaced-comment': 'off',
+        'no-console': 'warn',
+        'consistent-return': 'off',
+        'func-names': 'off',
+        'object-shorthand': 'off',
+        'no-process-exit': 'off',
+        'no-param-reassign': 'off',
+        'no-return-await': 'off',
+        'no-underscore-dangle': 'off',
+        'class-methods-use-this': 'off',
+        'prefer-destructuring': ['error', { object: true, array: false }],
+        'no-unused-vars': [
+            'error',
+            { argsIgnorePattern: 'req|res|next|val|err' }
+        ]
+    }
 };
 
 export default [
-  // Ignore .gitignore files/folder in eslint
-  includeIgnoreFile(gitignorePath),
-  // Javascript Config
-  ...jsConfig,
-  // Node Config
-  ...nodeConfig,
-  // Prettier Config
-  ...prettierConfig,
+    // Ignore .gitignore files/folder in eslint
+    includeIgnoreFile(gitignorePath),
+    // Javascript Config
+    ...jsConfig,
+    // Node Config
+    ...nodeConfig,
+    // Prettier Config
+    ...prettierConfig,
 
-  customRulesConfig,
+    customRulesConfig
 ];
