@@ -11,7 +11,7 @@ GET {{host}}/{{uri_prefix}}/tours/tour-stats
 
 GET {{host}}/{{uri_prefix}}/tours/monthly-plan/2021
 
-GET {{host}}/{{uri_prefix}}/tours/68e3e78fac4db9856be0f0a3
+GET {{host}}/{{uri_prefix}}/tours/wwww
 
 GET {{host}}/{{uri_prefix}}/users
 
@@ -22,12 +22,13 @@ DELETE {{host}}/{{uri_prefix}}/tours/68e38a7b1f88a27c05aa54b3
 POST {{host}}/{{uri_prefix}}/tours
 Content-Type: application/json
 {
-    "name": "The secret tour Test 2",
+    "name": "The Test",
     "duration": 5,
     "maxGroupSize": 25,
     "difficulty": "easy",
+    "rating": 6,
     "price": 397,
-    "priceDiscount": 400,
+    "priceDiscount": 300,
     "summary": "Breathtaking hike through the Canadian Banff National Park",
     "description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     "imageCover": "tour-1-cover.jpg",

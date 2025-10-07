@@ -7,25 +7,25 @@ const router = express.Router();
 
 router
     .route('/top-5-cheap')
-    .get(tourController.aliasTopTours, tourController.getAllTours);
+    .get(tourController.aliasTopTours, tourController.getAllToursAsync);
 
 router
     .route('/tour-stats')
-    .get(tourController.getTourStats);
+    .get(tourController.getTourStatsAsync);
 
 router
     .route('/monthly-plan/:year')
-    .get(tourController.getMonthlyPlan);
+    .get(tourController.getMonthlyPlanAsync);
 
 router
     .route('/')
-    .get(tourController.getAllTours)
-    .post(tourController.createTour);
+    .get(tourController.getAllToursAsync)
+    .post(tourController.createTourAsync);
 
 router
     .route('/:id')
-    .get(tourController.getTour)
-    .patch(tourController.updateTour)
-    .delete(tourController.deleteTour);
+    .get(tourController.getTourAsync)
+    .patch(tourController.updateTourAsync)
+    .delete(tourController.deleteTourAsync);
 
 module.exports = router;
