@@ -1,9 +1,11 @@
 @host = http://localhost:3000
 @uri_prefix = api/v1
+@token=d
 
 GET {{host}}/{{uri_prefix}}/tours?sort=-price&fields=name&page=1&limit=10
 
 GET {{host}}/{{uri_prefix}}/tours
+Authorization: Bearer {{token}}
 
 GET {{host}}/{{uri_prefix}}/tours/top-5-cheap
 
@@ -16,8 +18,6 @@ GET {{host}}/{{uri_prefix}}/tours/wwww
 GET {{host}}/{{uri_prefix}}/users
 
 GET {{host}}/{{uri_prefix}}/users/12
-
-DELETE {{host}}/{{uri_prefix}}/tours/68e38a7b1f88a27c05aa54b3
 
 POST {{host}}/{{uri_prefix}}/tours
 Content-Type: application/json
@@ -41,6 +41,27 @@ Content-Type: application/json
     "rating": 4.8,
     "price": 350
 }
+
+POST {{host}}/{{uri_prefix}}/users/signup
+Content-Type: application/json
+{
+    "name": "luis",
+    "email": "luisfilipesobral3@gmail.com",
+    "password": "123456789",
+    "passwordConfirm": "123456789"
+}
+
+POST {{host}}/{{uri_prefix}}/users/login
+Content-Type: application/json
+{
+    "email": "luisfilipesobral@gmail.com",
+    "password": "123456789"
+}
+{{
+  exports.token = response.parsedBody.token;
+}}
+
+DELETE {{host}}/{{uri_prefix}}/tours/68e38a7b1f88a27c05aa54b3
 
 GET https://www.natours.dev/api/v1/tours
 

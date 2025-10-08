@@ -8,7 +8,6 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
-exports.app = app;
 
 // 1 - MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
@@ -24,7 +23,11 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-    Object.defineProperty(req, 'query', { ...Object.getOwnPropertyDescriptor(req, 'query'), value: req.query, writable: true });
+    Object.defineProperty(req, 'query', {
+        ...Object.getOwnPropertyDescriptor(req, 'query'),
+        value: req.query,
+        writable: true
+    });
     next();
 });
 

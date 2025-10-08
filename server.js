@@ -1,9 +1,10 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-process.on('uncaughtException', err => {
-    console.log(err.name, err.message);
+process.on('uncaughtException', (err) => {
+    console.log(err.name, err.message, err.stack);
     console.log(`UNCAUGHT EXCEPTION! Shutting down...`);
+    // eslint-disable-next-line n/no-process-exit
     process.exit(1);
 });
 
@@ -11,13 +12,13 @@ dotenv.config({ path: './config.env' });
 
 const app = require('./app');
 
-const db_connection_string = process.env.DB_CONNECTION_STRING.replace(
+const dbConnectionString = process.env.DB_CONNECTION_STRING.replace(
     '<PASSWORD>',
     process.env.DB_PASSWORD
-)
+);
 
 mongoose
-    .connect(db_connection_string)
+    .connect(dbConnectionString)
     .then(() => console.log('DB connection successful!'));
 
 const port = process.env.PORT || 3000;
@@ -25,10 +26,11 @@ const server = app.listen(port, () => {
     console.log(`App running on port ${port}.`);
 });
 
-process.on('unhandledRejection', err => {
-    console.log(err.name, err.message);
+process.on('unhandledRejection', (err) => {
+    console.log(err.name, err.message, err.stack);
     console.log(`UNHANDLED REJECTION! Shutting down...`);
     server.close(() => {
+        // eslint-disable-next-line n/no-process-exit
         process.exit(1);
     });
 });
