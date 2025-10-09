@@ -1,23 +1,38 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZTc4Mzk4YWRhMDRlMTZiZTJlMTBiMCIsImlhdCI6MTc2MDAyODI2NSwiZXhwIjoxNzY3ODA0MjY1fQ.j_eO2oJMFzDue66tAV4yCZWqlIO1Gco1kdKCG12Mbm4
 @host = http://localhost:3000
 @uri_prefix = api/v1
-@token=d
 
-GET {{host}}/{{uri_prefix}}/tours?sort=-price&fields=name&page=1&limit=10
+GET {{host}}/{{uri_prefix}}/tours?sort=-price&sort=&fields=name&page=1&limit=10
+Authorization: Bearer {{token}}
+
+POST {{host}}/{{uri_prefix}}/users/login
+Content-Type: application/json
+{
+    "email": "luisfilipesobral3@gmail.com",
+    "password": "123456789"
+}
+
+{{
+  exports.token = response.parsedBody.token;
+}}
+
+PATCH {{host}}/{{uri_prefix}}/users/updatePassword
+Authorization: Bearer {{token}}
+Content-Type: application/json
+{
+    "passwordCurrent": "my-new-password2",
+    "password": "my-new-password",
+    "passwordConfirm": "my-new-password"
+}
+
+{{
+  exports.token = response.parsedBody.token;
+}}
 
 GET {{host}}/{{uri_prefix}}/tours
 Authorization: Bearer {{token}}
 
-GET {{host}}/{{uri_prefix}}/tours/top-5-cheap
-
-GET {{host}}/{{uri_prefix}}/tours/tour-stats
-
-GET {{host}}/{{uri_prefix}}/tours/monthly-plan/2021
-
-GET {{host}}/{{uri_prefix}}/tours/wwww
-
 GET {{host}}/{{uri_prefix}}/users
-
-GET {{host}}/{{uri_prefix}}/users/12
 
 POST {{host}}/{{uri_prefix}}/tours
 Content-Type: application/json
@@ -46,22 +61,47 @@ POST {{host}}/{{uri_prefix}}/users/signup
 Content-Type: application/json
 {
     "name": "luis",
-    "email": "luisfilipesobral3@gmail.com",
+    "email": "luisfilipesobral4@gmail.com",
     "password": "123456789",
-    "passwordConfirm": "123456789"
-}
-
-POST {{host}}/{{uri_prefix}}/users/login
-Content-Type: application/json
-{
-    "email": "luisfilipesobral@gmail.com",
-    "password": "123456789"
+    "passwordConfirm": "123456789",
+    "role": "admin"
 }
 {{
   exports.token = response.parsedBody.token;
 }}
 
-DELETE {{host}}/{{uri_prefix}}/tours/68e38a7b1f88a27c05aa54b3
+GET {{host}}/{{uri_prefix}}/tours/top-5-cheap
+
+GET {{host}}/{{uri_prefix}}/tours/tour-stats
+
+GET {{host}}/{{uri_prefix}}/tours/monthly-plan/2021
+
+GET {{host}}/{{uri_prefix}}/tours/wwww
+
+DELETE {{host}}/{{uri_prefix}}/tours/68e77cf174d3ca42d23dae3f
+Authorization: Bearer {{token}}
+
+DELETE {{host}}/{{uri_prefix}}/users/68e78321afe6a66336d48bef
+Authorization: Bearer {{token}}
+
+DELETE {{host}}/{{uri_prefix}}/users/deleteMe
+Authorization: Bearer {{token2}}
+
+POST {{host}}/{{uri_prefix}}/users/forgotPassword
+Content-Type: application/json
+{
+    "email": "luisfilipesobral4@gmail.com"
+}
+
+PATCH {{host}}/{{uri_prefix}}/users/resetPassword/34d3cca847820098a772f344d9cacdaecd131cfebc3968e384a2f98d56c0e54b
+Content-Type: application/json
+{
+    "password": "my-new-password2",
+    "passwordConfirm": "my-new-password2"
+}
+{{
+  exports.token = response.parsedBody.token;
+}}
 
 GET https://www.natours.dev/api/v1/tours
 

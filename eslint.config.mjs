@@ -19,7 +19,11 @@ const jsConfig = [
     // ESLint Recommended Rules
     {
         name: 'js/config',
-        ...js.configs.recommended
+        ...js.configs.recommended,
+        languageOptions: {
+            ecmaVersion: 2020,
+            sourceType: 'module'
+        }
     },
     // Stylistic Plugin
     plugins.stylistic,

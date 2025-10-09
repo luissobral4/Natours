@@ -16,13 +16,17 @@ router.route('/monthly-plan/:year').get(tourController.getMonthlyPlanAsync);
 
 router
     .route('/')
-    .get(authController.protect, tourController.getAllToursAsync)
+    .get(authController.protectAsync, tourController.getAllToursAsync)
     .post(tourController.createTourAsync);
 
 router
     .route('/:id')
     .get(tourController.getTourAsync)
     .patch(tourController.updateTourAsync)
-    .delete(tourController.deleteTourAsync);
+    .delete(
+        authController.protectAsync,
+        authController.restrictToAsync('admin'),
+        tourController.deleteTourAsync
+    );
 
 module.exports = router;
