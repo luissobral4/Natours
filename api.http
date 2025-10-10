@@ -1,20 +1,56 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZTc4Mzk4YWRhMDRlMTZiZTJlMTBiMCIsImlhdCI6MTc2MDAyODI2NSwiZXhwIjoxNzY3ODA0MjY1fQ.j_eO2oJMFzDue66tAV4yCZWqlIO1Gco1kdKCG12Mbm4
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZTc4Mzk4YWRhMDRlMTZiZTJlMTBiMCIsImlhdCI6MTc2MDA5Mzg3NSwiZXhwIjoxNzY3ODY5ODc1fQ.cQAF8Nqa-QFXGDoedMY4zOBgWzLsVt18VGqyEl57nIw
 @host = http://localhost:3000
 @uri_prefix = api/v1
 
-GET {{host}}/{{uri_prefix}}/tours?sort=-price&sort=&fields=name&page=1&limit=10
+GET {{host}}/{{uri_prefix}}/tours?sort=-price&sort=&fields=name,rating&page=1&limit=10
 Authorization: Bearer {{token}}
 
+GET {{host}}/{{uri_prefix}}/tours
+Authorization: Bearer {{token}}
+
+GET {{host}}/{{uri_prefix}}/users
+
+GET {{host}}/{{uri_prefix}}/tours/5c88fa8cf4afda39709c2970/reviews
+Authorization: Bearer {{token}}
+
+GET {{host}}/{{uri_prefix}}/tours/top-5-cheap
+
+GET {{host}}/{{uri_prefix}}/tours/tour-stats
+
+GET {{host}}/{{uri_prefix}}/tours/monthly-plan/2021
+
+GET {{host}}/{{uri_prefix}}/tours/wwww
+
+
+/////////// DELETE REQUESTS ///////////////////
+DELETE {{host}}/{{uri_prefix}}/tours/68e77cf174d3ca42d23dae3f
+Authorization: Bearer {{token}}
+
+DELETE {{host}}/{{uri_prefix}}/users/68e78321afe6a66336d48bef
+Authorization: Bearer {{token}}
+
+DELETE {{host}}/{{uri_prefix}}/users/deleteMe
+Authorization: Bearer {{token2}}
+
+
+/////////// UPDATE REQUESTS ///////////////////
 POST {{host}}/{{uri_prefix}}/users/login
 Content-Type: application/json
 {
-    "email": "luisfilipesobral3@gmail.com",
+    "email": "luisfilipesobral2@gmail.com",
     "password": "123456789"
 }
 
 {{
   exports.token = response.parsedBody.token;
 }}
+
+PATCH {{host}}/{{uri_prefix}}/tours/68e38a7b1f88a27c05aa54b3
+Content-Type: application/json
+{
+    "rating": 4.8,
+    "price": 350
+}
 
 PATCH {{host}}/{{uri_prefix}}/users/updatePassword
 Authorization: Bearer {{token}}
@@ -28,64 +64,6 @@ Content-Type: application/json
 {{
   exports.token = response.parsedBody.token;
 }}
-
-GET {{host}}/{{uri_prefix}}/tours
-Authorization: Bearer {{token}}
-
-GET {{host}}/{{uri_prefix}}/users
-
-POST {{host}}/{{uri_prefix}}/tours
-Content-Type: application/json
-{
-    "name": "The Test",
-    "duration": 5,
-    "maxGroupSize": 25,
-    "difficulty": "easy",
-    "rating": 6,
-    "price": 397,
-    "priceDiscount": 300,
-    "summary": "Breathtaking hike through the Canadian Banff National Park",
-    "description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "imageCover": "tour-1-cover.jpg",
-    "secretTour": true
-}
-
-PATCH {{host}}/{{uri_prefix}}/tours/68e38a7b1f88a27c05aa54b3
-Content-Type: application/json
-{
-    "rating": 4.8,
-    "price": 350
-}
-
-POST {{host}}/{{uri_prefix}}/users/signup
-Content-Type: application/json
-{
-    "name": "luis",
-    "email": "luisfilipesobral4@gmail.com",
-    "password": "123456789",
-    "passwordConfirm": "123456789",
-    "role": "admin"
-}
-{{
-  exports.token = response.parsedBody.token;
-}}
-
-GET {{host}}/{{uri_prefix}}/tours/top-5-cheap
-
-GET {{host}}/{{uri_prefix}}/tours/tour-stats
-
-GET {{host}}/{{uri_prefix}}/tours/monthly-plan/2021
-
-GET {{host}}/{{uri_prefix}}/tours/wwww
-
-DELETE {{host}}/{{uri_prefix}}/tours/68e77cf174d3ca42d23dae3f
-Authorization: Bearer {{token}}
-
-DELETE {{host}}/{{uri_prefix}}/users/68e78321afe6a66336d48bef
-Authorization: Bearer {{token}}
-
-DELETE {{host}}/{{uri_prefix}}/users/deleteMe
-Authorization: Bearer {{token2}}
 
 POST {{host}}/{{uri_prefix}}/users/forgotPassword
 Content-Type: application/json
@@ -103,6 +81,54 @@ Content-Type: application/json
   exports.token = response.parsedBody.token;
 }}
 
-GET https://www.natours.dev/api/v1/tours
 
-GET https://dog.ceo/api/breeds/image/random
+/////////// CREATE REQUESTS ///////////////////
+POST {{host}}/{{uri_prefix}}/users/signup
+Content-Type: application/json
+{
+    "name": "luis",
+    "email": "luisfilipesobral4@gmail.com",
+    "password": "123456789",
+    "passwordConfirm": "123456789",
+    "role": "admin"
+}
+{{
+  exports.token = response.parsedBody.token;
+}}
+
+POST {{host}}/{{uri_prefix}}/tours
+Content-Type: application/json
+{
+    "name": "The Test Tour",
+    "duration": 5,
+    "maxGroupSize": 25,
+    "difficulty": "easy",
+    "rating": 4,
+    "price": 397,
+    "priceDiscount": 300,
+    "summary": "Breathtaking hike through the Canadian Banff National Park",
+    "description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "imageCover": "tour-1-cover.jpg",
+    "guides": [
+      "68e78398ada04e16be2e10b0",
+      "68e78330afe6a66336d48bf1"
+    ]
+}
+
+POST {{host}}/{{uri_prefix}}/reviews
+Authorization: Bearer {{token}}
+Content-Type: application/json
+{
+    "review": "Incredible tour!!",
+    "rating": 4,
+    "user": "68e78398ada04e16be2e10b0",
+    "tour": "5c88fa8cf4afda39709c2970"
+}
+
+POST {{host}}/{{uri_prefix}}/tours/5c88fa8cf4afda39709c2970/reviews
+Authorization: Bearer {{token}}
+Content-Type: application/json
+{
+    "review": "Amazing tour 2!!",
+    "rating": 3
+}

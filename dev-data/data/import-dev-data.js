@@ -17,7 +17,7 @@ mongoose
 
 const tours = JSON.parse(
     // eslint-disable-next-line n/no-sync
-    fs.readFileSync(path.join(__dirname, 'tours-simple.json'), 'utf-8')
+    fs.readFileSync(path.join(__dirname, 'tours.json'), 'utf-8')
 );
 
 // IMPORT DATA INTO DB

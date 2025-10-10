@@ -35,7 +35,7 @@ const createSendToken = (user, statusCode, res) => {
     });
 };
 
-const signupAsync = catchAsync(async (req, res, next) => {
+const signup = catchAsync(async (req, res, next) => {
     const newUser = await User.create({
         name: req.body.name,
         email: req.body.email,
@@ -47,7 +47,7 @@ const signupAsync = catchAsync(async (req, res, next) => {
     createSendToken(newUser, 201, res);
 });
 
-const loginAsync = catchAsync(async (req, res, next) => {
+const login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -63,7 +63,7 @@ const loginAsync = catchAsync(async (req, res, next) => {
     createSendToken(user, 200, res);
 });
 
-const protectAsync = catchAsync(async (req, res, next) => {
+const protect = catchAsync(async (req, res, next) => {
     let token = null;
 
     if (
@@ -103,7 +103,7 @@ const protectAsync = catchAsync(async (req, res, next) => {
     next();
 });
 
-const restrictToAsync =
+const restrictTo =
     (...roles) =>
     (req, res, next) => {
         if (!roles.includes(req.user.role)) {
@@ -118,7 +118,7 @@ const restrictToAsync =
         next();
     };
 
-const forgotPasswordAsync = catchAsync(async (req, res, next) => {
+const forgotPassword = catchAsync(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
@@ -158,7 +158,7 @@ const forgotPasswordAsync = catchAsync(async (req, res, next) => {
     }
 });
 
-const resetPasswordAsync = catchAsync(async (req, res, next) => {
+const resetPassword = catchAsync(async (req, res, next) => {
     const hashedtoken = crypto
         .createHash('sha256')
         .update(req.params.token)
@@ -183,7 +183,7 @@ const resetPasswordAsync = catchAsync(async (req, res, next) => {
     createSendToken(user, 200, res);
 });
 
-const updatePasswordAsync = catchAsync(async (req, res, next) => {
+const updatePassword = catchAsync(async (req, res, next) => {
     const user = await User.findById(req.user.id).select('+password');
 
     if (
@@ -201,11 +201,11 @@ const updatePasswordAsync = catchAsync(async (req, res, next) => {
 });
 
 module.exports = {
-    signupAsync,
-    loginAsync,
-    protectAsync,
-    restrictToAsync,
-    forgotPasswordAsync,
-    resetPasswordAsync,
-    updatePasswordAsync
+    signup,
+    login,
+    protect,
+    restrictTo,
+    forgotPassword,
+    resetPassword,
+    updatePassword
 };
