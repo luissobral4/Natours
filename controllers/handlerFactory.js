@@ -46,7 +46,7 @@ const getAll = (Model) =>
     });
 
 const createOne = (Model) =>
-    catchAsync(async (req, res, next) => {git rm --cached
+    catchAsync(async (req, res, next) => {
         const newDoc = await Model.create(req.body);
 
         res.status(201).json({
