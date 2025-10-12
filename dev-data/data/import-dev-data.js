@@ -9,7 +9,7 @@ const Review = require('../../models/reviewModel');
 dotenv.config({ path: './config.env' });
 
 const dbConnectionString = process.env.DB_CONNECTION_STRING.replace(
-    '<PASSWORD>',
+    '<db_password>',
     process.env.DB_PASSWORD
 );
 
