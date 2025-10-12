@@ -2,24 +2,35 @@
 @host = http://localhost:3000
 @uri_prefix = api/v1
 
-GET {{host}}/{{uri_prefix}}/tours?sort=-price&sort=&fields=name,rating&page=1&limit=10
+GET {{host}}/{{uri_prefix}}/tours?price[lt]=1000
 Authorization: Bearer {{token}}
 
-GET {{host}}/{{uri_prefix}}/tours
+GET {{host}}/{{uri_prefix}}/tours/5c88fa8cf4afda39709c2970
 Authorization: Bearer {{token}}
 
 GET {{host}}/{{uri_prefix}}/users
+Authorization: Bearer {{token}}
+
+GET {{host}}/{{uri_prefix}}/bookings
+Authorization: Bearer {{token}}
 
 GET {{host}}/{{uri_prefix}}/tours/5c88fa8cf4afda39709c2970/reviews
 Authorization: Bearer {{token}}
 
 GET {{host}}/{{uri_prefix}}/tours/top-5-cheap
+Authorization: Bearer {{token}}
 
 GET {{host}}/{{uri_prefix}}/tours/tour-stats
+Authorization: Bearer {{token}}
 
 GET {{host}}/{{uri_prefix}}/tours/monthly-plan/2021
+Authorization: Bearer {{token}}
 
-GET {{host}}/{{uri_prefix}}/tours/wwww
+GET {{host}}/{{uri_prefix}}/tours/tours-within/950/center/34.049628,-118.134373/unit/km
+Authorization: Bearer {{token}}
+
+GET {{host}}/{{uri_prefix}}/tours/distances/34.049628,-118.134373/unit/km
+Authorization: Bearer {{token}}
 
 
 /////////// DELETE REQUESTS ///////////////////
@@ -34,23 +45,48 @@ Authorization: Bearer {{token2}}
 
 
 /////////// UPDATE REQUESTS ///////////////////
+//"admin@natours.io". "leo@example.com"
+
 POST {{host}}/{{uri_prefix}}/users/login
 Content-Type: application/json
 {
-    "email": "luisfilipesobral2@gmail.com",
-    "password": "123456789"
+    "email": "admin@natours.io",
+    "password": "test1234"
 }
 
 {{
   exports.token = response.parsedBody.token;
 }}
 
-PATCH {{host}}/{{uri_prefix}}/tours/68e38a7b1f88a27c05aa54b3
-Content-Type: application/json
-{
-    "rating": 4.8,
-    "price": 350
-}
+PATCH {{host}}/{{uri_prefix}}/tours/5c88fa8cf4afda39709c2955
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="price"
+
+300
+--MyBoundary
+Content-Disposition: form-data; name="imageCover"; filename="new-tour-1.jpg"
+Content-Type: image/jpeg
+
+< ./dev-data/img/new-tour-1.jpg
+--MyBoundary
+Content-Disposition: form-data; name="images"; filename="new-tour-2.jpg"
+Content-Type: image/jpeg
+
+< ./dev-data/img/new-tour-2.jpg
+--MyBoundary
+Content-Disposition: form-data; name="images"; filename="new-tour-3.jpg"
+Content-Type: image/jpeg
+
+< ./dev-data/img/new-tour-3.jpg
+--MyBoundary
+Content-Disposition: form-data; name="images"; filename="new-tour-4.jpg"
+Content-Type: image/jpeg
+
+< ./dev-data/img/new-tour-4.jpg
+--MyBoundary--
 
 PATCH {{host}}/{{uri_prefix}}/users/updatePassword
 Authorization: Bearer {{token}}
@@ -68,8 +104,23 @@ Content-Type: application/json
 POST {{host}}/{{uri_prefix}}/users/forgotPassword
 Content-Type: application/json
 {
-    "email": "luisfilipesobral4@gmail.com"
+    "email": "luisfilipesobral1@gmail.com"
 }
+
+PATCH {{host}}/{{uri_prefix}}/users/updateMe
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="name"
+
+Leo Gill
+--MyBoundary
+Content-Disposition: form-data; name="photo"; filename="leo.jpg"
+Content-Type: image/jpeg
+
+< ./dev-data/img/leo.jpg
+--MyBoundary--
 
 PATCH {{host}}/{{uri_prefix}}/users/resetPassword/34d3cca847820098a772f344d9cacdaecd131cfebc3968e384a2f98d56c0e54b
 Content-Type: application/json
@@ -87,9 +138,9 @@ POST {{host}}/{{uri_prefix}}/users/signup
 Content-Type: application/json
 {
     "name": "luis",
-    "email": "luisfilipesobral4@gmail.com",
-    "password": "123456789",
-    "passwordConfirm": "123456789",
+    "email": "luisfilipesobral1@gmail.com",
+    "password": "test1234",
+    "passwordConfirm": "test1234",
     "role": "admin"
 }
 {{
@@ -97,6 +148,7 @@ Content-Type: application/json
 }}
 
 POST {{host}}/{{uri_prefix}}/tours
+Authorization: Bearer {{token}}
 Content-Type: application/json
 {
     "name": "The Test Tour",
@@ -115,16 +167,6 @@ Content-Type: application/json
     ]
 }
 
-POST {{host}}/{{uri_prefix}}/reviews
-Authorization: Bearer {{token}}
-Content-Type: application/json
-{
-    "review": "Incredible tour!!",
-    "rating": 4,
-    "user": "68e78398ada04e16be2e10b0",
-    "tour": "5c88fa8cf4afda39709c2970"
-}
-
 POST {{host}}/{{uri_prefix}}/tours/5c88fa8cf4afda39709c2970/reviews
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -132,3 +174,9 @@ Content-Type: application/json
     "review": "Amazing tour 2!!",
     "rating": 3
 }
+
+POST {{host}}/{{uri_prefix}}/bookings/?tour=5c88fa8cf4afda39709c2970&user=5c8a1f292f8fb814b56fa184&price=2997
+Authorization: Bearer {{token}}
+
+GET {{host}}/{{uri_prefix}}/bookings/checkout-session/5c88fa8cf4afda39709c2970
+Authorization: Bearer {{token}}

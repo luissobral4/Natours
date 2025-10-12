@@ -2,6 +2,19 @@ const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+const { uploadFromStorage, sharpResizeAsync } = require('../utils/photo');
+
+const uploadUserPhoto = uploadFromStorage.single('photo');
+
+const resizeUserPhoto = catchAsync(async (req, res, next) => {
+    if (!req.file) return next();
+
+    req.file.filename = `user-${req.user.id}.${Date.now()}.jpeg`;
+
+    await sharpResizeAsync(req.file, 'users', req.file.filename, 2000, 1333);
+
+    next();
+});
 
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
@@ -39,8 +52,10 @@ const updateMe = catchAsync(async (req, res, next) => {
     }
 
     const filteredBody = filterObj(req.body, 'name', 'email');
+    if (req.file) filteredBody.photo = req.file.filename;
+
     const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
+        req.user.id,
         filteredBody,
         {
             new: true,
@@ -73,5 +88,7 @@ module.exports = {
     deleteUser,
     getMe,
     updateMe,
-    deleteMe
+    deleteMe,
+    uploadUserPhoto,
+    resizeUserPhoto
 };
