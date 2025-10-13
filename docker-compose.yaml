@@ -6,5 +6,49 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: natours
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+
+  natours:
+    image: natours
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${PORT}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_COOKIE_EXPIRES_IN=${JWT_COOKIE_EXPIRES_IN}
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_FROM=${EMAIL_FROM}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+
+  update-db:
+    image: update-db
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: update-db
+    environment:
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
+
+  clean-db:
+    image: clean-db
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: clean-db
+    environment:
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
